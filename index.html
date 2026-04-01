@@ -1,18 +1,1063 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="ru">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      name="description"
-      content="Florista — премиум цветы и доставка. Заказ через WhatsApp."
-    />
-    <title>Florista — премиум флористика · florista.kg</title>
-    <script type="module" crossorigin src="/assets/index-DVwb63s9.js"></script>
-    <link rel="stylesheet" crossorigin href="/assets/index-GDIPWRXZ.css">
-  </head>
-  <body>
-    <div id="root"></div>
-  </body>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Florista — премиум флористика · florista.kg</title>
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <style>
+    /* ===== WINDOWS 2000 SYSTEM COLORS ===== */
+    :root {
+      --win-bg:          #008080;   /* classic teal desktop */
+      --win-face:        #d4d0c8;   /* button face */
+      --win-shadow:      #808080;
+      --win-dark-shadow: #404040;
+      --win-highlight:   #ffffff;
+      --win-title-from:  #000080;
+      --win-title-to:    #1084d0;
+      --win-title-text:  #ffffff;
+      --win-text:        #000000;
+      --win-link:        #0000cc;
+      --win-visited:     #800080;
+      --win-red:         #c0392b;
+      --win-green:       #006400;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--win-bg);
+      font-family: "Tahoma", "MS Sans Serif", Arial, sans-serif;
+      font-size: 11px;
+      color: var(--win-text);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ===== DESKTOP WALLPAPER TILES ===== */
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      background-color: var(--win-bg);
+      z-index: 0;
+    }
+
+    /* ===== TASKBAR ===== */
+    #taskbar {
+      position: fixed;
+      bottom: 0; left: 0; right: 0;
+      height: 28px;
+      background: var(--win-face);
+      border-top: 2px solid var(--win-highlight);
+      display: flex;
+      align-items: center;
+      z-index: 9999;
+      gap: 4px;
+      padding: 0 4px;
+    }
+    #start-btn {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 2px 8px;
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+      font-weight: bold;
+      font-size: 12px;
+      cursor: pointer;
+      user-select: none;
+    }
+    #start-btn:active {
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+    }
+    #start-btn img { width: 16px; height: 16px; }
+    .taskbar-btn {
+      display: flex; align-items: center; gap: 4px;
+      padding: 3px 8px;
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+      font-size: 11px;
+      cursor: pointer;
+      min-width: 140px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #taskbar-clock {
+      margin-left: auto;
+      padding: 3px 8px;
+      border: 2px solid;
+      border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+      font-size: 11px;
+      background: var(--win-face);
+      min-width: 54px;
+      text-align: center;
+    }
+
+    /* ===== DESKTOP ICONS ===== */
+    #desktop {
+      position: relative;
+      z-index: 1;
+      padding: 10px;
+      padding-bottom: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 16px;
+      min-height: calc(100vh - 28px);
+    }
+    .desktop-icon {
+      display: flex; flex-direction: column; align-items: center;
+      width: 72px; text-align: center;
+      cursor: pointer; color: white;
+      font-size: 11px; text-shadow: 1px 1px 2px #000;
+      padding: 4px;
+    }
+    .desktop-icon:hover { background: rgba(255,255,255,0.15); }
+    .desktop-icon svg { width: 32px; height: 32px; margin-bottom: 4px; }
+    .desktop-icon span { line-height: 1.3; }
+
+    /* ===== BROWSER WINDOW ===== */
+    #browser-window {
+      position: absolute;
+      top: 20px;
+      left: 120px;
+      width: 860px;
+      max-width: calc(100vw - 130px);
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+      box-shadow: 2px 2px 8px rgba(0,0,0,0.5);
+      z-index: 100;
+    }
+
+    /* Title bar */
+    .win-titlebar {
+      background: linear-gradient(to right, var(--win-title-from), var(--win-title-to));
+      padding: 3px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      cursor: default;
+    }
+    .win-titlebar-left {
+      display: flex; align-items: center; gap: 6px;
+      color: var(--win-title-text);
+      font-weight: bold;
+      font-size: 12px;
+    }
+    .win-titlebar-left svg { width: 16px; height: 16px; }
+    .win-titlebar-btns { display: flex; gap: 2px; }
+    .win-btn {
+      width: 16px; height: 14px;
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+      font-size: 9px; font-weight: bold;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; line-height: 1;
+    }
+    .win-btn:active {
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+    }
+    .win-btn.close { background: var(--win-face); }
+
+    /* Menu bar */
+    .win-menubar {
+      background: var(--win-face);
+      border-bottom: 1px solid var(--win-shadow);
+      padding: 2px 4px;
+      display: flex; gap: 0;
+    }
+    .win-menu-item {
+      padding: 2px 8px;
+      cursor: pointer;
+      font-size: 11px;
+    }
+    .win-menu-item:hover { background: var(--win-title-from); color: white; }
+
+    /* Toolbar */
+    .win-toolbar {
+      background: var(--win-face);
+      border-bottom: 2px solid var(--win-shadow);
+      padding: 4px 6px;
+      display: flex; align-items: center; gap: 4px;
+    }
+    .toolbar-btn {
+      display: flex; flex-direction: column; align-items: center;
+      padding: 2px 8px;
+      background: var(--win-face);
+      border: 2px solid transparent;
+      font-size: 10px; cursor: pointer;
+      gap: 2px; min-width: 46px;
+      white-space: nowrap;
+    }
+    .toolbar-btn:hover {
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+    }
+    .toolbar-btn:active {
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+    }
+    .toolbar-sep {
+      width: 2px; height: 36px;
+      border-left: 1px solid var(--win-shadow);
+      border-right: 1px solid var(--win-highlight);
+      margin: 0 4px;
+    }
+    .address-bar {
+      flex: 1; display: flex; align-items: center; gap: 4px;
+    }
+    .address-label { font-size: 11px; white-space: nowrap; }
+    .address-input {
+      flex: 1;
+      height: 22px;
+      padding: 2px 4px;
+      border: 2px solid;
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+      font-family: "Tahoma", Arial, sans-serif;
+      font-size: 11px;
+      background: white;
+    }
+    .go-btn {
+      padding: 2px 10px;
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+      font-size: 11px; cursor: pointer;
+      height: 22px;
+    }
+    .go-btn:active {
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+    }
+
+    /* Browser content area */
+    .win-content {
+      background: white;
+      min-height: 520px;
+      overflow-y: auto;
+      max-height: 560px;
+    }
+
+    /* Status bar */
+    .win-statusbar {
+      background: var(--win-face);
+      border-top: 2px solid;
+      border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+      padding: 2px 8px;
+      font-size: 10px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .status-panel {
+      border: 1px solid;
+      border-color: var(--win-shadow) var(--win-highlight) var(--win-highlight) var(--win-shadow);
+      padding: 1px 6px;
+      flex: 1;
+    }
+    .status-panel.small { flex: 0 0 120px; }
+
+    /* ===== WEBSITE CONTENT (inside browser) ===== */
+    .site-wrapper {
+      font-family: "Times New Roman", Times, serif;
+      font-size: 13px;
+      color: #000;
+      background: white;
+    }
+
+    /* Site header */
+    .site-header {
+      background: linear-gradient(180deg, #003366 0%, #336699 100%);
+      color: white;
+      padding: 8px 12px;
+      text-align: center;
+      border-bottom: 3px solid #ff9900;
+    }
+    .site-header h1 {
+      font-size: 28px;
+      font-family: "Times New Roman", serif;
+      letter-spacing: 4px;
+      text-shadow: 2px 2px 4px #000;
+      color: #ffcc00;
+    }
+    .site-header p {
+      font-size: 12px;
+      color: #aaccff;
+      margin-top: 2px;
+    }
+
+    /* Nav table */
+    .site-nav {
+      background: #336699;
+      display: flex;
+      justify-content: center;
+      gap: 0;
+      border-bottom: 2px solid #003366;
+    }
+    .site-nav a {
+      display: block;
+      padding: 5px 16px;
+      color: white;
+      text-decoration: none;
+      font-size: 12px;
+      font-family: "Tahoma", Arial, sans-serif;
+      font-weight: bold;
+      border-right: 1px solid #558bb5;
+    }
+    .site-nav a:first-child { border-left: 1px solid #558bb5; }
+    .site-nav a:hover { background: #ff9900; color: #000; }
+
+    /* Marquee */
+    .site-marquee {
+      background: #ffffcc;
+      border-top: 1px solid #cc9900;
+      border-bottom: 1px solid #cc9900;
+      padding: 3px 0;
+      font-size: 12px;
+      color: var(--win-red);
+      font-weight: bold;
+    }
+
+    /* Main layout */
+    .site-main {
+      display: flex;
+      gap: 0;
+    }
+    .site-sidebar {
+      width: 160px;
+      flex-shrink: 0;
+      border-right: 2px solid #cccccc;
+      background: #f0f0f0;
+      padding: 8px;
+    }
+    .site-body {
+      flex: 1;
+      padding: 10px 12px;
+      min-width: 0;
+    }
+
+    /* Sidebar boxes */
+    .sidebar-box {
+      border: 2px solid;
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+      margin-bottom: 10px;
+      background: var(--win-face);
+    }
+    .sidebar-box-title {
+      background: #336699;
+      color: white;
+      padding: 3px 6px;
+      font-size: 11px;
+      font-weight: bold;
+      font-family: "Tahoma", Arial, sans-serif;
+    }
+    .sidebar-box-body {
+      padding: 6px;
+      font-size: 11px;
+      font-family: "Tahoma", Arial, sans-serif;
+    }
+    .sidebar-box-body ul { padding-left: 14px; }
+    .sidebar-box-body li { margin-bottom: 3px; }
+    .sidebar-box-body a {
+      color: var(--win-link);
+      text-decoration: underline;
+    }
+    .sidebar-box-body a:hover { color: red; }
+
+    /* Counter */
+    .counter-box {
+      text-align: center;
+      padding: 4px;
+      background: black;
+      color: #00ff00;
+      font-family: "Courier New", monospace;
+      font-size: 13px;
+      letter-spacing: 3px;
+      border: 2px inset #888;
+      margin-bottom: 10px;
+    }
+
+    /* Hero banner */
+    .hero-banner {
+      border: 3px solid #336699;
+      background: linear-gradient(135deg, #fff5f5 0%, #ffe0e0 50%, #fff9e0 100%);
+      padding: 14px;
+      margin-bottom: 12px;
+      text-align: center;
+    }
+    .hero-banner h2 {
+      font-size: 20px;
+      color: #990000;
+      font-family: "Times New Roman", serif;
+      margin-bottom: 6px;
+    }
+    .hero-banner p {
+      font-size: 13px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+    .hero-banner .flower-art {
+      font-size: 40px;
+      line-height: 1;
+      margin: 8px 0;
+    }
+
+    /* WinXP-style beveled button */
+    .retro-btn {
+      display: inline-block;
+      padding: 5px 18px;
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+      font-size: 12px;
+      font-family: "Tahoma", Arial, sans-serif;
+      cursor: pointer;
+      text-decoration: none;
+      color: black;
+      font-weight: bold;
+    }
+    .retro-btn:hover { background: #e8e4d8; }
+    .retro-btn:active {
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+    }
+    .retro-btn.primary {
+      background: #336699; color: white;
+      border-color: #5588bb #002244 #002244 #5588bb;
+    }
+    .retro-btn.primary:hover { background: #447799; }
+
+    /* Product grid — old-school table look */
+    .products-section h3 {
+      background: #336699;
+      color: white;
+      padding: 4px 8px;
+      font-size: 13px;
+      font-family: "Tahoma", Arial, sans-serif;
+      margin-bottom: 0;
+      border: 1px solid #002244;
+    }
+    .products-table {
+      width: 100%;
+      border-collapse: collapse;
+      border: 1px solid #999;
+      font-family: "Tahoma", Arial, sans-serif;
+      font-size: 11px;
+      margin-bottom: 14px;
+    }
+    .products-table th {
+      background: #d4d0c8;
+      border: 1px solid #808080;
+      padding: 4px 8px;
+      text-align: left;
+      font-weight: bold;
+    }
+    .products-table td {
+      border: 1px solid #bbbbbb;
+      padding: 6px 8px;
+      vertical-align: middle;
+    }
+    .products-table tr:nth-child(even) td { background: #f5f5f5; }
+    .products-table tr:hover td { background: #d5e8f5; }
+    .product-img {
+      width: 64px; height: 64px;
+      background: #ffe0e0;
+      border: 2px inset #aaa;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 28px;
+    }
+    .price-tag {
+      color: #cc0000;
+      font-weight: bold;
+      font-size: 13px;
+    }
+    .stock-ok { color: green; }
+    .stock-no { color: red; }
+
+    /* Section divider */
+    .retro-hr {
+      border: none;
+      border-top: 2px solid;
+      border-color: var(--win-shadow) var(--win-shadow) var(--win-highlight) var(--win-highlight);
+      margin: 10px 0;
+    }
+
+    /* About box */
+    .about-box {
+      background: #fffde0;
+      border: 2px solid #cc9900;
+      padding: 8px 12px;
+      margin-bottom: 12px;
+      font-size: 12px;
+    }
+    .about-box h3 {
+      color: #663300;
+      font-size: 14px;
+      margin-bottom: 4px;
+    }
+
+    /* Contact form */
+    .form-section {
+      border: 2px solid;
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+      padding: 10px;
+      background: var(--win-face);
+      margin-bottom: 12px;
+    }
+    .form-section h3 {
+      font-family: "Tahoma", Arial, sans-serif;
+      font-size: 13px;
+      margin-bottom: 8px;
+      padding-bottom: 4px;
+      border-bottom: 1px solid #aaa;
+    }
+    .form-row {
+      display: flex; align-items: center; gap: 8px; margin-bottom: 6px;
+    }
+    .form-row label {
+      width: 100px; font-size: 11px;
+      font-family: "Tahoma", Arial, sans-serif;
+      text-align: right;
+    }
+    .form-row input, .form-row select, .form-row textarea {
+      flex: 1;
+      border: 2px solid;
+      border-color: var(--win-dark-shadow) var(--win-highlight) var(--win-highlight) var(--win-dark-shadow);
+      padding: 3px 5px;
+      font-size: 11px;
+      font-family: "Tahoma", Arial, sans-serif;
+      background: white;
+    }
+    .form-row textarea { height: 60px; resize: vertical; }
+
+    /* Under-construction gif replacement */
+    .under-construction {
+      display: flex; align-items: center; gap: 8px;
+      background: #ffff99;
+      border: 2px dashed #ff6600;
+      padding: 6px 10px;
+      margin-bottom: 12px;
+      font-family: "Tahoma", Arial, sans-serif;
+      font-size: 11px;
+      font-weight: bold;
+      color: #cc0000;
+    }
+    .blink { animation: blink 1s step-start infinite; }
+    @keyframes blink { 50% { opacity: 0; } }
+
+    /* Footer */
+    .site-footer {
+      background: #003366;
+      color: #aaccff;
+      padding: 8px 12px;
+      font-size: 11px;
+      font-family: "Tahoma", Arial, sans-serif;
+      text-align: center;
+      border-top: 3px solid #ff9900;
+    }
+    .site-footer a { color: #ffcc00; text-decoration: underline; }
+
+    /* Scrollbar (IE-style look hint) */
+    .win-content::-webkit-scrollbar { width: 16px; }
+    .win-content::-webkit-scrollbar-track { background: var(--win-face); }
+    .win-content::-webkit-scrollbar-thumb {
+      background: var(--win-face);
+      border: 2px solid;
+      border-color: var(--win-highlight) var(--win-dark-shadow) var(--win-dark-shadow) var(--win-highlight);
+    }
+
+    /* Tooltip hint */
+    .ie-tooltip {
+      position: relative; display: inline-block;
+    }
+    .ie-tooltip:hover::after {
+      content: attr(data-tip);
+      position: absolute; top: 100%; left: 0;
+      background: #ffffe1;
+      border: 1px solid #000;
+      padding: 2px 6px;
+      font-size: 11px;
+      font-family: "Tahoma", Arial, sans-serif;
+      white-space: nowrap;
+      z-index: 9999;
+      color: #000;
+    }
+
+    /* Responsive: smaller screens */
+    @media (max-width: 768px) {
+      #browser-window {
+        position: static;
+        width: 100%;
+        max-width: 100%;
+        margin: 8px;
+      }
+      #desktop { padding: 8px; }
+      .site-main { flex-direction: column; }
+      .site-sidebar { width: 100%; border-right: none; border-bottom: 2px solid #ccc; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===================== DESKTOP ===================== -->
+<div id="desktop">
+
+  <!-- Desktop icons -->
+  <div class="desktop-icon" title="Florista">
+    <svg viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="12" r="6" fill="#ff6699"/>
+      <circle cx="10" cy="18" r="4" fill="#ff99bb"/>
+      <circle cx="22" cy="18" r="4" fill="#ff99bb"/>
+      <circle cx="16" cy="22" r="4" fill="#ff6699"/>
+      <circle cx="16" cy="14" r="3" fill="#ffff99"/>
+      <rect x="14" y="22" width="4" height="6" fill="#33aa33"/>
+    </svg>
+    <span>Florista</span>
+  </div>
+
+  <div class="desktop-icon" title="Мой компьютер">
+    <svg viewBox="0 0 32 32" fill="none">
+      <rect x="4" y="6" width="24" height="16" rx="1" fill="#d4d0c8" stroke="#808080" stroke-width="1"/>
+      <rect x="6" y="8" width="20" height="12" fill="#000066"/>
+      <rect x="10" y="24" width="12" height="3" fill="#d4d0c8"/>
+      <rect x="8" y="27" width="16" height="2" fill="#d4d0c8"/>
+    </svg>
+    <span>Мой компьютер</span>
+  </div>
+
+  <div class="desktop-icon" title="Корзина">
+    <svg viewBox="0 0 32 32" fill="none">
+      <rect x="8" y="12" width="16" height="16" rx="1" fill="#d4d0c8" stroke="#808080"/>
+      <rect x="10" y="8" width="12" height="4" rx="1" fill="#d4d0c8" stroke="#808080"/>
+      <line x1="16" y1="8" x2="16" y2="28" stroke="#808080" stroke-width="1"/>
+      <line x1="12" y1="15" x2="12" y2="25" stroke="#808080" stroke-width="1"/>
+      <line x1="20" y1="15" x2="20" y2="25" stroke="#808080" stroke-width="1"/>
+    </svg>
+    <span>Корзина</span>
+  </div>
+
+  <!-- ===================== BROWSER WINDOW ===================== -->
+  <div id="browser-window">
+
+    <!-- Title bar -->
+    <div class="win-titlebar">
+      <div class="win-titlebar-left">
+        <svg viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" fill="#336699" stroke="#aaccff" stroke-width="1"/>
+          <ellipse cx="8" cy="8" rx="3" ry="7" fill="none" stroke="#aaccff" stroke-width="1"/>
+          <line x1="1" y1="8" x2="15" y2="8" stroke="#aaccff" stroke-width="1"/>
+        </svg>
+        Florista — премиум флористика — Florista.kg — Microsoft Internet Explorer
+      </div>
+      <div class="win-titlebar-btns">
+        <div class="win-btn" title="Свернуть">_</div>
+        <div class="win-btn" title="Развернуть">□</div>
+        <div class="win-btn close" title="Закрыть">✕</div>
+      </div>
+    </div>
+
+    <!-- Menu bar -->
+    <div class="win-menubar">
+      <div class="win-menu-item">Файл</div>
+      <div class="win-menu-item">Правка</div>
+      <div class="win-menu-item">Вид</div>
+      <div class="win-menu-item">Избранное</div>
+      <div class="win-menu-item">Сервис</div>
+      <div class="win-menu-item">Справка</div>
+    </div>
+
+    <!-- Toolbar -->
+    <div class="win-toolbar">
+      <button class="toolbar-btn" title="Назад">
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+          <polygon points="0,7 8,0 8,5 20,5 20,9 8,9 8,14" fill="#336699"/>
+        </svg>
+        Назад
+      </button>
+      <button class="toolbar-btn" title="Вперёд">
+        <svg width="20" height="14" viewBox="0 0 20 14" fill="none">
+          <polygon points="20,7 12,0 12,5 0,5 0,9 12,9 12,14" fill="#808080"/>
+        </svg>
+        Вперёд
+      </button>
+      <button class="toolbar-btn" title="Остановить">
+        <svg width="14" height="14" viewBox="0 0 14 14">
+          <line x1="2" y1="2" x2="12" y2="12" stroke="#cc0000" stroke-width="2"/>
+          <line x1="12" y1="2" x2="2" y2="12" stroke="#cc0000" stroke-width="2"/>
+        </svg>
+        Стоп
+      </button>
+      <button class="toolbar-btn" title="Обновить">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path d="M2,7 A5,5 0 0,1 12,7" stroke="#336699" stroke-width="2"/>
+          <polygon points="12,4 14,8 10,8" fill="#336699"/>
+        </svg>
+        Обновить
+      </button>
+      <button class="toolbar-btn" title="Домой">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <polygon points="7,1 13,7 11,7 11,13 3,13 3,7 1,7" fill="#336699"/>
+        </svg>
+        Домой
+      </button>
+      <div class="toolbar-sep"></div>
+      <button class="toolbar-btn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <rect x="2" y="2" width="10" height="10" stroke="#cc6600" stroke-width="2"/>
+          <circle cx="7" cy="7" r="2" fill="#cc6600"/>
+        </svg>
+        Поиск
+      </button>
+      <button class="toolbar-btn">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <polygon points="7,1 9,5 13,5 10,8 11,13 7,10 3,13 4,8 1,5 5,5" fill="#ff9900"/>
+        </svg>
+        Избранное
+      </button>
+      <div class="toolbar-sep"></div>
+      <div class="address-bar">
+        <span class="address-label">Адрес:</span>
+        <input class="address-input" type="text" value="http://www.florista.kg/" readonly />
+        <button class="go-btn">Переход</button>
+      </div>
+    </div>
+
+    <!-- WEBSITE CONTENT -->
+    <div class="win-content">
+      <div class="site-wrapper">
+
+        <!-- Site Header -->
+        <div class="site-header">
+          <div style="font-size:11px; color:#aaccff; text-align:right; margin-bottom:4px;">
+            🌐 Добро пожаловать! Вы — посетитель №
+            <span class="counter-box" style="display:inline; font-size:11px; letter-spacing:2px; padding:1px 4px;">004721</span>
+          </div>
+          <h1>🌸 FLORISTA 🌸</h1>
+          <p>Премиум флористика · Бишкек, Кыргызстан · florista.kg</p>
+          <p style="font-size:11px; margin-top:4px; color:#ffeeaa;">✦ Доставка цветов · Свадебные букеты · Корпоративные заказы ✦</p>
+        </div>
+
+        <!-- Navigation -->
+        <div class="site-nav">
+          <a href="#">🏠 Главная</a>
+          <a href="#">💐 Каталог</a>
+          <a href="#">🎀 Акции</a>
+          <a href="#">📞 Контакты</a>
+          <a href="#">🚚 Доставка</a>
+          <a href="#">ℹ️ О нас</a>
+        </div>
+
+        <!-- Marquee -->
+        <div class="site-marquee">
+          <marquee behavior="scroll" direction="left" scrollamount="3">
+            🌹 АКЦИЯ! Букет из 11 роз — 1500 сом! &nbsp;&nbsp;&nbsp; 🌷 Бесплатная доставка при заказе от 3000 сом! &nbsp;&nbsp;&nbsp; 💐 Свадебное оформление — звоните: +996 555 FLORES &nbsp;&nbsp;&nbsp; 🌸 Новинка: Пионы и орхидеи в наличии! &nbsp;&nbsp;&nbsp; ⭐ Работаем с 8:00 до 22:00 без выходных &nbsp;&nbsp;&nbsp;
+          </marquee>
+        </div>
+
+        <!-- Under construction notice -->
+        <div class="under-construction">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <polygon points="12,2 22,22 2,22" fill="#ffff00" stroke="#ff6600" stroke-width="2"/>
+            <text x="10" y="19" font-size="14" fill="#ff6600" font-weight="bold">!</text>
+          </svg>
+          <span class="blink">⚠ САЙТ В РАЗРАБОТКЕ!</span>
+          &nbsp; Мы обновляем наш сайт. Приносим извинения за неудобства!
+          &nbsp; Лучший просмотр: Internet Explorer 6.0 · разрешение 800×600
+        </div>
+
+        <!-- Main area -->
+        <div class="site-main">
+
+          <!-- Sidebar -->
+          <div class="site-sidebar">
+
+            <div class="sidebar-box">
+              <div class="sidebar-box-title">📂 Категории</div>
+              <div class="sidebar-box-body">
+                <ul>
+                  <li><a href="#">Розы</a></li>
+                  <li><a href="#">Тюльпаны</a></li>
+                  <li><a href="#">Пионы</a></li>
+                  <li><a href="#">Орхидеи</a></li>
+                  <li><a href="#">Лилии</a></li>
+                  <li><a href="#">Букеты</a></li>
+                  <li><a href="#">Свадебные</a></li>
+                  <li><a href="#">Корпоратив</a></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="sidebar-box">
+              <div class="sidebar-box-title">📞 Контакты</div>
+              <div class="sidebar-box-body">
+                <strong>WhatsApp:</strong><br/>
+                +996 555 FLORES<br/><br/>
+                <strong>Адрес:</strong><br/>
+                г. Бишкек,<br/>ул. Чуй 123<br/><br/>
+                <strong>Время:</strong><br/>
+                08:00 — 22:00<br/>без выходных
+              </div>
+            </div>
+
+            <div class="sidebar-box">
+              <div class="sidebar-box-title">🔗 Ссылки</div>
+              <div class="sidebar-box-body">
+                <a href="#">Главная</a><br/>
+                <a href="#">Доставка</a><br/>
+                <a href="#">FAQ</a><br/>
+                <a href="#">Партнёры</a><br/>
+                <a href="#">Карта сайта</a>
+              </div>
+            </div>
+
+            <div class="sidebar-box">
+              <div class="sidebar-box-title">📊 Счётчик</div>
+              <div class="sidebar-box-body" style="text-align:center;">
+                <div class="counter-box">004721</div>
+                <div style="font-size:10px; color:#555;">посетителей с 2024</div>
+              </div>
+            </div>
+
+            <div style="text-align:center; font-size:10px; color:#666; margin-top:8px;">
+              <div style="border:1px solid #aaa; padding:4px; background:#fff; margin-bottom:6px;">
+                <div style="font-size:9px; color:#888;">88×31 баннер</div>
+                <div style="background:linear-gradient(to right,#003366,#336699); color:#ffcc00; padding:2px 4px; font-size:9px; font-weight:bold;">
+                  FLORISTA.KG
+                </div>
+              </div>
+              <div style="font-size:9px;">Лучший сайт<br/>цветов 2024!</div>
+            </div>
+          </div>
+
+          <!-- Main body -->
+          <div class="site-body">
+
+            <!-- Hero banner -->
+            <div class="hero-banner">
+              <div class="flower-art">🌹🌷🌸💐🌺</div>
+              <h2>Добро пожаловать в FLORISTA!</h2>
+              <p>
+                Мы предлагаем <strong>лучшие цветы Бишкека</strong> с быстрой доставкой по всему городу.
+                Свежие букеты, свадебное оформление, корпоративные заказы — всё это FLORISTA!
+              </p>
+              <a href="#" class="retro-btn primary">💐 Заказать букет</a>
+              &nbsp;
+              <a href="#" class="retro-btn">📞 Позвонить нам</a>
+            </div>
+
+            <hr class="retro-hr" />
+
+            <!-- Products -->
+            <div class="products-section">
+              <h3>🛒 Наши популярные товары</h3>
+              <table class="products-table">
+                <thead>
+                  <tr>
+                    <th width="70">Фото</th>
+                    <th>Название</th>
+                    <th>Описание</th>
+                    <th width="80">Цена</th>
+                    <th width="70">Наличие</th>
+                    <th width="80">Заказ</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><div class="product-img">🌹</div></td>
+                    <td><strong>Красные розы</strong><br/><span style="font-size:10px; color:#666;">11 шт.</span></td>
+                    <td>Классические красные розы. Длина стебля 60 см. Свежие, срезаны сегодня.</td>
+                    <td><span class="price-tag">1 500 сом</span></td>
+                    <td><span class="stock-ok">✔ Есть</span></td>
+                    <td><button class="retro-btn" style="font-size:10px; padding:3px 8px;">В корзину</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="product-img">🌷</div></td>
+                    <td><strong>Тюльпаны</strong><br/><span style="font-size:10px; color:#666;">15 шт.</span></td>
+                    <td>Микс тюльпанов. Голландские сорта. Нежный аромат.</td>
+                    <td><span class="price-tag">1 200 сом</span></td>
+                    <td><span class="stock-ok">✔ Есть</span></td>
+                    <td><button class="retro-btn" style="font-size:10px; padding:3px 8px;">В корзину</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="product-img">🌸</div></td>
+                    <td><strong>Пионы</strong><br/><span style="font-size:10px; color:#666;">7 шт.</span></td>
+                    <td>Нежно-розовые пионы. Сезонная коллекция. Ограниченное количество.</td>
+                    <td><span class="price-tag">2 100 сом</span></td>
+                    <td><span class="stock-ok">✔ Есть</span></td>
+                    <td><button class="retro-btn" style="font-size:10px; padding:3px 8px;">В корзину</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="product-img">🌺</div></td>
+                    <td><strong>Орхидея</strong><br/><span style="font-size:10px; color:#666;">в горшке</span></td>
+                    <td>Фаленопсис в белом кашпо. Прекрасный подарок. Живёт 2-3 месяца.</td>
+                    <td><span class="price-tag">3 500 сом</span></td>
+                    <td><span class="stock-no">✖ Мало</span></td>
+                    <td><button class="retro-btn" style="font-size:10px; padding:3px 8px;">В корзину</button></td>
+                  </tr>
+                  <tr>
+                    <td><div class="product-img">💐</div></td>
+                    <td><strong>Свадебный букет</strong><br/><span style="font-size:10px; color:#666;">на заказ</span></td>
+                    <td>Индивидуальный дизайн. Любые цветы. Лента и упаковка включены.</td>
+                    <td><span class="price-tag">от 5 000 сом</span></td>
+                    <td><span class="stock-ok">✔ Заказ</span></td>
+                    <td><button class="retro-btn primary" style="font-size:10px; padding:3px 8px;">Заказать</button></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <hr class="retro-hr" />
+
+            <!-- About box -->
+            <div class="about-box">
+              <h3>🌟 О компании FLORISTA</h3>
+              <p>
+                Florista — ведущий цветочный магазин Бишкека. Мы работаем с 2018 года
+                и за это время выполнили более <strong>10 000 заказов</strong>. Наши флористы —
+                профессионалы с многолетним опытом. Мы используем только свежие цветы,
+                поставляемые напрямую с плантаций Голландии и Эквадора.
+              </p>
+              <p style="margin-top:6px;">
+                Заказ через WhatsApp: <strong>+996 555 FLORES</strong> · Доставка 2 часа по Бишкеку!
+              </p>
+            </div>
+
+            <hr class="retro-hr" />
+
+            <!-- Order form -->
+            <div class="form-section">
+              <h3>📝 Оформить заказ онлайн</h3>
+              <div class="form-row">
+                <label for="fname">Ваше имя:</label>
+                <input type="text" id="fname" placeholder="Введите имя" />
+              </div>
+              <div class="form-row">
+                <label for="fphone">Телефон:</label>
+                <input type="text" id="fphone" placeholder="+996 5XX XXX XXX" />
+              </div>
+              <div class="form-row">
+                <label for="fproduct">Товар:</label>
+                <select id="fproduct">
+                  <option>Красные розы (11 шт.) — 1 500 сом</option>
+                  <option>Тюльпаны (15 шт.) — 1 200 сом</option>
+                  <option>Пионы (7 шт.) — 2 100 сом</option>
+                  <option>Орхидея в горшке — 3 500 сом</option>
+                  <option>Свадебный букет — от 5 000 сом</option>
+                </select>
+              </div>
+              <div class="form-row">
+                <label for="faddress">Адрес доставки:</label>
+                <input type="text" id="faddress" placeholder="ул. Чуй, д. 1, кв. 1" />
+              </div>
+              <div class="form-row">
+                <label for="fnote">Комментарий:</label>
+                <textarea id="fnote" placeholder="Пожелания к букету, время доставки..."></textarea>
+              </div>
+              <div class="form-row" style="justify-content:flex-end;">
+                <button class="retro-btn primary" onclick="alert('Спасибо! Ваш заказ принят. Мы свяжемся с вами в ближайшее время!')">
+                  ✔ Отправить заказ
+                </button>
+                &nbsp;
+                <button class="retro-btn" onclick="document.querySelectorAll('#fname,#fphone,#faddress,#fnote').forEach(e=>e.value='')">
+                  ✖ Очистить
+                </button>
+              </div>
+            </div>
+
+          </div><!-- /.site-body -->
+        </div><!-- /.site-main -->
+
+        <!-- Footer -->
+        <div class="site-footer">
+          <p>
+            &copy; 2024 <strong>FLORISTA.KG</strong> — Все права защищены &nbsp;|&nbsp;
+            <a href="#">Политика конфиденциальности</a> &nbsp;|&nbsp;
+            <a href="#">Карта сайта</a> &nbsp;|&nbsp;
+            <a href="#">Контакты</a>
+          </p>
+          <p style="margin-top:4px; font-size:10px; color:#7799bb;">
+            Сайт оптимизирован для Internet Explorer 6.0+ · Разрешение 800×600 · Windows 2000/XP
+          </p>
+          <p style="margin-top:4px; font-size:10px; color:#7799bb;">
+            Разработано: WebStudio Bishkek 2024 &nbsp;|&nbsp; Хостинг: KazNET.kg
+          </p>
+        </div>
+
+      </div><!-- /.site-wrapper -->
+    </div><!-- /.win-content -->
+
+    <!-- Status bar -->
+    <div class="win-statusbar">
+      <div class="status-panel">✔ Готово</div>
+      <div class="status-panel small">🔒 Интернет</div>
+      <div class="status-panel small">100%</div>
+    </div>
+
+  </div><!-- /#browser-window -->
+
+</div><!-- /#desktop -->
+
+<!-- Taskbar -->
+<div id="taskbar">
+  <button id="start-btn">
+    <svg width="16" height="16" viewBox="0 0 16 16">
+      <rect width="7" height="7" fill="#ff0000"/>
+      <rect x="9" width="7" height="7" fill="#00aa00"/>
+      <rect y="9" width="7" height="7" fill="#0000ff"/>
+      <rect x="9" y="9" width="7" height="7" fill="#ffcc00"/>
+    </svg>
+    Пуск
+  </button>
+  <div class="taskbar-btn">
+    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      <circle cx="7" cy="7" r="6" fill="#336699" stroke="#aaccff" stroke-width="1"/>
+    </svg>
+    Florista — Microsoft Internet Explorer
+  </div>
+  <div id="taskbar-clock" id="clock">10:00</div>
+</div>
+
+<script>
+  // Live clock
+  function updateClock() {
+    const now = new Date();
+    const h = String(now.getHours()).padStart(2, '0');
+    const m = String(now.getMinutes()).padStart(2, '0');
+    document.getElementById('taskbar-clock').textContent = h + ':' + m;
+  }
+  updateClock();
+  setInterval(updateClock, 30000);
+
+  // Fake hit counter animation
+  let count = 4721;
+  const counters = document.querySelectorAll('.counter-box');
+  setInterval(() => {
+    if (Math.random() < 0.3) {
+      count++;
+      counters.forEach(c => { c.textContent = String(count).padStart(6, '0'); });
+    }
+  }, 5000);
+
+  // Window dragging (fun touch)
+  const win = document.getElementById('browser-window');
+  const titlebar = win.querySelector('.win-titlebar');
+  let dragging = false, ox = 0, oy = 0;
+  titlebar.addEventListener('mousedown', e => {
+    dragging = true;
+    const rect = win.getBoundingClientRect();
+    ox = e.clientX - rect.left;
+    oy = e.clientY - rect.top;
+    win.style.position = 'fixed';
+    e.preventDefault();
+  });
+  document.addEventListener('mousemove', e => {
+    if (!dragging) return;
+    win.style.left = (e.clientX - ox) + 'px';
+    win.style.top  = (e.clientY - oy) + 'px';
+  });
+  document.addEventListener('mouseup', () => { dragging = false; });
+</script>
+
+</body>
 </html>
